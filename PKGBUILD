@@ -40,4 +40,11 @@ package() {
   echo "prebuilt=yes" >> $cache_file
 
   ./InstallSICStus --batch
+
+  cd "${pkgdir}/opt/sicstus-${pkgver}/bin"
+
+  # Patch out some references to pkgdir
+  for p in spld splfr splm "spconfig-${pkgver}" "splfr-${pkgver}" "spld-${pkgver}" "splm-${pkgver}"; do
+    sed -i "s|${pkgdir}||g" "$p"
+  done
 }
