@@ -41,10 +41,15 @@ package() {
 
   ./InstallSICStus --batch
 
+  # Patch out references to pkgdir
   cd "${pkgdir}/opt/sicstus-${pkgver}/bin"
-
-  # Patch out some references to pkgdir
   for p in spld splfr splm "spconfig-${pkgver}" "splfr-${pkgver}" "spld-${pkgver}" "splm-${pkgver}"; do
     sed -i "s|${pkgdir}||g" "$p"
   done
+
+  # Link binaries
+  mkdir -p "${pkgdir}/usr/bin"
+  cd "${pkgdir}/usr/bin"
+  ln -s "/opt/sicstus-${pkgver}/bin/sicstus" sicstus
+  ln -s "/opt/sicstus-${pkgver}/bin/sicstus-${pkgver}" "sicstus-${pkgver}"
 }
