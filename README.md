@@ -1,1 +1,1 @@
-# SiCStus Arch Package
+# SICStus Arch Package
