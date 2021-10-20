@@ -1,6 +1,6 @@
 pkgname=sicstus
 pkgver=4.6.0
-pkgrel=1
+pkgrel=2
 pkgdesc="SICStus Prolog"
 arch=("x86_64")
 license=("custom")
@@ -33,7 +33,8 @@ package() {
   cd "sp-${pkgver}-${arch}-linux-glibc${_glibcver}"
 
   cache_file="./install.cache"
-  echo "installdir=${pkgdir}/opt/sicstus-${pkgver}" > $cache_file
+  install_path="opt/sicstus"
+  echo "installdir=${pkgdir}/${install_path}" > $cache_file
   echo "sitename=$SICSTUS_LICENSE_SITENAME" >> $cache_file
   echo "licensecode=$SICSTUS_LICENSE_CODE" >> $cache_file
   echo "expires=$SICSTUS_LICENSE_EXPIRES" >> $cache_file
@@ -42,7 +43,7 @@ package() {
   ./InstallSICStus --batch
 
   # Patch out references to pkgdir
-  cd "${pkgdir}/opt/sicstus-${pkgver}/bin"
+  cd "${pkgdir}/${install_path}/bin"
   for p in spld splfr splm "spconfig-${pkgver}" "splfr-${pkgver}" "spld-${pkgver}" "splm-${pkgver}"; do
     sed -i "s|${pkgdir}||g" "$p"
   done
@@ -50,6 +51,6 @@ package() {
   # Link binaries
   mkdir -p "${pkgdir}/usr/bin"
   cd "${pkgdir}/usr/bin"
-  ln -s "/opt/sicstus-${pkgver}/bin/sicstus" sicstus
-  ln -s "/opt/sicstus-${pkgver}/bin/sicstus-${pkgver}" "sicstus-${pkgver}"
+  ln -s "/${install_path}/bin/sicstus" sicstus
+  ln -s "/${install_path}/bin/sicstus-${pkgver}" "sicstus-${pkgver}"
 }
