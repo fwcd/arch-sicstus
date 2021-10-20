@@ -3,3 +3,4 @@
 src/
 pkg/
 sp-*-*-linux-glibc*
+.license
